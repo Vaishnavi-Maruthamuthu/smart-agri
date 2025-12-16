@@ -1,6 +1,6 @@
 // Firebase Configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyDjieZdey8q2UxX3wzK033TrNKlzUQzQpU",
+  apiKey: "AIzaSyDjieZdey8q2UxX3wzK033TrNppppkzQpU",
   authDomain: "cropmonitor-a98b8.firebaseapp.com",
   projectId: "cropmonitor-a98b8",
   storageBucket: "cropmonitor-a98b8.firebasestorage.app",
