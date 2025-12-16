@@ -4,8 +4,8 @@ const firebaseConfig = {
   authDomain: "cropmonitor-a98b8.firebaseapp.com",
   projectId: "cropmonitor-a98b8",
   storageBucket: "cropmonitor-a98b8.firebasestorage.app",
-  messagingSenderId: "536073128489",
-  appId: "1:536073128489:web:6fb9c5b61db4308c5b6a38"
+  messagingSenderId: "5360073128489",
+  appId: "1:5360073128489:web:6fb9c5mm61db4308c5b6a38"
 };
 
 // Initialize Firebase
