@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title> Crop Monitoring and Adviosary platform Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+  <!-- Navigation Header -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="nav-brand">
+        <i class="fas fa-seedling"></i>
+        <span>SmartAgri</span>
+      </div>
+      <div class="nav-status">
+        <div class="status-indicator" id="connectionStatus">
+          <i class="fas fa-circle"></i>
+          <span>Connecting...</span>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1> Crop Monitoring and Adviosary platform</h1>
+      <p>Real-time sensor data analysis with intelligent crop recommendations</p>
+    </div>
+  </section>
+
+  <div class="main-container">
+    <!-- Live Sensor Data -->
+    <section class="sensor-section">
+      <div class="section-header">
+        <h2><i class="fas fa-thermometer-half"></i> Live Sensor Data</h2>
+        <div class="last-updated" id="lastUpdated">Last updated: --</div>
+      </div>
+      
+      <div class="sensor-grid">
+        <div class="sensor-card temperature">
+          <div class="sensor-icon">
+            <i class="fas fa-thermometer-half"></i>
+          </div>
+          <div class="sensor-content">
+            <h3>Temperature</h3>
+            <div class="sensor-value" id="temp">-- °C</div>
+            <div class="sensor-status" id="tempStatus">--</div>
+          </div>
+        </div>
+        
+        <div class="sensor-card humidity">
+          <div class="sensor-icon">
+            <i class="fas fa-tint"></i>
+          </div>
+          <div class="sensor-content">
+            <h3>Humidity</h3>
+            <div class="sensor-value" id="hum">-- %</div>
+            <div class="sensor-status" id="humStatus">--</div>
+          </div>
+        </div>
+        
+        <div class="sensor-card moisture">
+          <div class="sensor-icon">
+            <i class="fas fa-seedling"></i>
+          </div>
+          <div class="sensor-content">
+            <h3>Soil Moisture</h3>
+            <div class="sensor-value" id="moist">-- %</div>
+            <div class="sensor-status" id="moistStatus">--</div>
+          </div>
+        </div>
+        
+        <div class="sensor-card ph">
+          <div class="sensor-icon">
+            <i class="fas fa-flask"></i>
+          </div>
+          <div class="sensor-content">
+            <h3>Soil pH</h3>
+            <div class="sensor-value" id="ph">--</div>
+            <div class="sensor-status" id="phStatus">--</div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="alert-container" id="alertContainer">
+        <div class="alert" id="alert"></div>
+      </div>
+    </section>
+
+    <!-- AI Recommendations Section -->
+    <section class="ai-section">
+      <div class="section-header">
+        <h2><i class="fas fa-robot"></i> AI Crop Recommendations</h2>
+        <p>Get intelligent crop suggestions based on your current environmental conditions</p>
+      </div>
+      
+      <div class="ai-actions">
+        <button class="btn-primary" onclick="getAIRecommendations()">
+          <i class="fas fa-brain"></i>
+          Get AI Recommendations
+        </button>
+        <button class="btn-secondary" onclick="refreshData()">
+          <i class="fas fa-sync-alt"></i>
+          Refresh Data
+        </button>
+      </div>
+      
+      <div id="aiRecommendations" class="recommendations-container"></div>
+    </section>
+
+    <!-- Crop Growth Guide -->
+    <section class="growth-guide-section">
+      <div class="section-header">
+        <h2><i class="fas fa-book-open"></i> Crop Growth Monitoring Guide</h2>
+        <p>Complete guide for monitoring your crop through all growth stages</p>
+      </div>
+      <div class="guide-table-container">
+        <div class="guide-actions">
+          <center> <a href="index2.html" class="btn-outline" target="_blank" rel="noopener">
+            <i class="fas fa-external-link-alt"></i>
+            Open Detailed Crop Growth Guide
+          </a> </center>
+        </div>
+      
+            <!-- Table rows will be populated by JavaScript -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Data Visualization -->
+    <section class="charts-section">
+      <div class="section-header">
+        <h2><i class="fas fa-chart-line"></i> Data Trends</h2>
+        <p>Historical sensor data visualization</p>
+      </div>
+      <div class="chart-container">
+        <canvas id="chart"></canvas>
+      </div>
+    </section>
+
+    <!-- Additional Features -->
+    <section class="features-section">
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-download"></i>
+          </div>
+          <h3>Export Data</h3>
+          <p>Download your sensor data for analysis</p>
+          <button class="btn-outline" onclick="exportHistory()">
+            <i class="fas fa-file-csv"></i>
+            Export CSV
+          </button>
+        </div>
+        
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-calculator"></i>
+          </div>
+          <h3>Profit Calculator</h3>
+          <p>Calculate potential profits from your crops</p>
+          <button class="btn-outline" onclick="openProfitCalculator()">
+            <i class="fas fa-chart-pie"></i>
+            Calculate
+          </button>
+        </div>
+        
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-calendar-alt"></i>
+          </div>
+          <h3>Crop Calendar</h3>
+          <p>Plan your planting and harvesting schedule</p>
+          <button class="btn-outline" onclick="openCropCalendar()">
+            <i class="fas fa-calendar"></i>
+            View Calendar
+          </button>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-content">
+      <p>&copy; AGRICULTURE</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
